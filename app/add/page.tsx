@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { Loader2Icon } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import supabase from "@/utils/supabase";
+import { FileUpload } from "@/components/file-upload";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -104,6 +105,50 @@ export default function CardWithFormPage() {
           <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-2">
+                <div>
+                  <h1>Upload a File</h1>
+                  <div>
+                    <div className="flex items-center justify-center text-center">
+                      <FormField
+                        control={form.control}
+                        name="bookUrl"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <FileUpload
+                                endpoint="bookUrl"
+                                value={field.value}
+                                onChange={field.onChange}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h1>Upload an Image</h1>
+                  <div>
+                    <div className="flex items-center justify-center text-center">
+                      <FormField
+                        control={form.control}
+                        name="imageUrl"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <FileUpload
+                                endpoint="bookImage"
+                                value={field.value}
+                                onChange={field.onChange}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
                 <div className="grid gap-1">
                   <FormField
                     control={form.control}
@@ -152,45 +197,7 @@ export default function CardWithFormPage() {
                           <Input
                             id="releaseDate"
                             placeholder="Release Date (Ex. 10-10-2020)"
-                            type="text"
-                            autoCapitalize="none"
-                            disabled={isLoading}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="bookUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            id="bookUrl"
-                            placeholder="Book PDF URL"
-                            type="text"
-                            autoCapitalize="none"
-                            disabled={isLoading}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="imageUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            id="imageUrl"
-                            placeholder="Book Image URL"
-                            type="text"
+                            type="date"
                             autoCapitalize="none"
                             disabled={isLoading}
                             {...field}

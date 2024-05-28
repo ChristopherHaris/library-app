@@ -5,11 +5,9 @@ import { DataTable } from "@/components/table/data-table";
 import supabase from "@/utils/supabase";
 import { PostgrestResponse } from "@supabase/supabase-js";
 
-async function getData() {
-  const { data }: PostgrestResponse<Books> = await supabase
-    .from("Books")
-    .select("*");
-  return data;
+export async function getData() {
+  let { data: Books, error } = await supabase.from("Books").select("*");
+  return Books;
 }
 
 export default async function DemoPage() {
@@ -17,8 +15,9 @@ export default async function DemoPage() {
 
   return (
     <div>
-      <div className="flex justify-end px-8 lg:px-24 w-full">
+      <div className="flex justify-end gap-2 pt-10 px-8 lg:px-24 w-full">
         <AddButton />
+        <ModeToggle />
       </div>
       <div className="container mx-auto py-10">
         {data && <DataTable columns={columns} data={data} />}

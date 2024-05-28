@@ -13,6 +13,7 @@ import {
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import supabase from "@/utils/supabase";
+import { revalidatePath } from "next/cache";
 
 export type Books = {
   id: string;
@@ -34,6 +35,7 @@ const onEdit = (bookUrl: string) => {
 const onDelete = async (id: string) => {
   const { error } = await supabase.from("Books").delete().eq("id", id);
   window.location.reload();
+  revalidatePath("/");
 
   if (error) {
     throw error;
@@ -122,7 +124,7 @@ export const columns: ColumnDef<Books>[] = [
             >
               View
             </DropdownMenuItem>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            {/* <DropdownMenuItem>Edit</DropdownMenuItem> */}
             <DropdownMenuItem
               onClick={() => onDelete(row.original.id as string)}
             >
