@@ -1,17 +1,31 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { AddButton } from "@/components/add-button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Books, columns } from "@/components/table/columns";
 import { DataTable } from "@/components/table/data-table";
-import supabase from "@/utils/supabase";
-import { PostgrestResponse } from "@supabase/supabase-js";
+import axios from "axios";
+import { Loader2Icon } from "lucide-react";
 
-export async function getData() {
-  let { data: Books, error } = await supabase.from("Books").select("*");
-  return Books;
-}
+export default function DemoPage() {
+  const [data, setData] = useState<Books[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function DemoPage() {
-  const data = await getData();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/api/books");
+        setData(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -19,8 +33,14 @@ export default async function DemoPage() {
         <AddButton />
         <ModeToggle />
       </div>
-      <div className="container mx-auto py-10">
-        {data && <DataTable columns={columns} data={data} />}
+      <div className="container justify-center mx-auto py-10">
+        {loading ? (
+          <div className="flex w-full justify-center">
+            <Loader2Icon className="animate-spin" />
+          </div>
+        ) : (
+          <DataTable columns={columns} data={data} />
+        )}
       </div>
     </div>
   );
