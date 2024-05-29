@@ -23,7 +23,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Loader2Icon } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import supabase from "@/utils/supabase";
 import { FileUpload } from "@/components/file-upload";
 
@@ -79,12 +79,12 @@ export default function CardWithFormPage() {
       if (error) {
         throw error;
       }
-      toast({ description: "Book added successfully" });
+      toast.success("book added successfully");
       form.reset();
       router.push("/");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast({ description: "Failed to add book" });
+      toast.error("failed adding book");
     } finally {
       setIsLoading(false);
     }

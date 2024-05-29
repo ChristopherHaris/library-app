@@ -18,7 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { toast } from "../ui/use-toast";
+import { toast } from "sonner";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -46,16 +46,12 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
       await axios
         .post("/api/login", values)
         .then(function (response) {
-          toast({
-            description: "Login successful",
-          });
+          toast.success("Login Successful");
           setIsLoading(false);
           router.push("/");
         })
         .catch(function (error) {
-          toast({
-            description: error.response.data.message,
-          });
+          toast.error("Please Try Again");
           setIsLoading(false);
         });
 

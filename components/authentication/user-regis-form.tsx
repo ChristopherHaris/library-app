@@ -11,13 +11,8 @@ import axios from "axios";
 import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "../ui/form";
-import { toast } from "../ui/use-toast";
+import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
+import { toast } from "sonner";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -46,16 +41,12 @@ export function UserRegisForm({ className, ...props }: UserAuthFormProps) {
         .post("/api/regis", values)
         .then(function (response) {
           console.log(response);
-          toast({
-            description: "Register successful, please login",
-          });
+          toast.success("Register Successful, Please Login");
           setIsLoading(false);
           router.push("/authentication/login");
         })
         .catch(function (error) {
-          toast({
-            description: error.response.data.message,
-          });
+          toast.error("Please Try Again");
           setIsLoading(false);
         });
 

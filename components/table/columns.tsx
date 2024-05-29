@@ -13,7 +13,7 @@ import {
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import supabase from "@/utils/supabase";
-import { revalidatePath } from "next/cache";
+import { toast } from "sonner";
 
 export type Books = {
   id: string;
@@ -35,7 +35,7 @@ const onEdit = (bookUrl: string) => {
 const onDelete = async (id: string) => {
   const { error } = await supabase.from("Books").delete().eq("id", id);
   window.location.reload();
-  revalidatePath("/");
+  toast.success("successfully deleted books")
 
   if (error) {
     throw error;
